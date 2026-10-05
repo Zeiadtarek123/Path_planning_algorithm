@@ -167,7 +167,7 @@ THE MATH BEHIND THIS :
    now we have list called resampled contains just points ,we put the blues in that function to get b_pts and the yellow to get y_pts ,then apply the usual (X2+X1)/2 and (Y2-Y1)/2 to get the mid points.
 # Case B: Only one boundary is observed
    # Single cone visible
-      we will follow a predictive way here , we will get a vector which has angle in between car heading and from_car_to_cone vector as a starting point for us ,then we will get unit vector of that middle vector,then rotate it 90 degree clockwise if blue or counterclockwise if yellow :
+   we will follow a predictive way here , we will get a vector which has angle in between car heading and from_car_to_cone vector as a starting point for us ,then we will get unit vector of that middle vector,then rotate it 90 degree clockwise if blue or counterclockwise if yellow :
       
 ---
 ![alt text](images/image-6.png)
@@ -176,7 +176,7 @@ THE MATH BEHIND THIS :
 then we add the x and y of that lonely cone to the offset (ox,oy) we got , to get the point which is perpendcular from the middle vector and in the true direction (to left if blue , to right if yellow) ,add to that another point so we can draw a stright line and smoother can work (we will discuss the smoother later). 
 
 
-   # Multiple cones on single boundary (2, 3, or more)
+   Multiple cones on single boundary (2, 3, or more)
       we will do the same as above but forget about the middle vector(we did that because we didn't got any info so we had to improvis) .
       we will get the vector between each two cones (same boundary of course) and oriante that 90 degrees (clockwise if blue , counterclockwise if yellow) and add the R=1.0m as my assumption says in that direction ,collect those in list called mid and return.
 
