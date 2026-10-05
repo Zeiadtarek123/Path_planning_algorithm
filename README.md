@@ -105,7 +105,7 @@ v = (last_cone - first_cone)  #to get the general vector pointing toward track d
 d_other = (closest_opposite_cone - first_cone)  #another vector pointing from the closest cone to the car toward the closest cone to car but the other color , this explains it:
 ```
 ![alt text](images/image.png)
-```
+
 cross = v.x * d_other.y - v.y * d_other.x 
 
 
@@ -114,7 +114,7 @@ cross = v.x * d_other.y - v.y * d_other.x
 - If blue cones (left side) and `cross > 0` → the ordering is flipped → reverse.
 
 This ensures the path direction is always forward relative to both boundaries.
-```
+
 ---
 
 #### Phase 2 — Centerline Waypoints
@@ -172,14 +172,14 @@ THE MATH BEHIND THIS :
 ---
 ![alt text](images/image-6.png)
 ![alt text](images/image-7.png)
-```
+
 then we add the x and y of that lonely cone to the offset (ox,oy) we got , to get the point which is perpendcular from the middle vector and in the true direction (to left if blue , to right if yellow) ,add to that another point so we can draw a stright line and smoother can work (we will discuss the smoother later). 
-```
-```
+
+
    # Multiple cones on single boundary (2, 3, or more)
       we will do the same as above but forget about the middle vector(we did that because we didn't got any info so we had to improvis) .
       we will get the vector between each two cones (same boundary of course) and oriante that 90 degrees (clockwise if blue , counterclockwise if yellow) and add the R=1.0m as my assumption says in that direction ,collect those in list called mid and return.
-```
+
 ![alt text](images/image-8.png)
 
 from here my job was done , the rest is well known ways to smooth out the generated path given Path2D ,it will smoothen it using two functions 
