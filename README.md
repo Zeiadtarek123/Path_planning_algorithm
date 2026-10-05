@@ -104,7 +104,7 @@ v = (last_cone - first_cone)  #to get the general vector pointing toward track d
 
 d_other = (closest_opposite_cone - first_cone)  #another vector pointing from the closest cone to the car toward the closest cone to car but the other color , this explains it:
 ```
-![alt text](image.png)
+![alt text](images/image.png)
 ```
 cross = v.x * d_other.y - v.y * d_other.x 
 
@@ -138,24 +138,24 @@ THE MATH BEHIND THIS :
    # Subcase A1: Exactly 1 cone on each side (single track gate) the easiest one
    just get ( (y0.x + b0.x) / 2.0, (y0.y + b0.y) / 2.0 ) and that the mid between the two cones ,
    then we want another point after that mid to draw a stright line for the car ,but which direction to put that second point ,that will be decided based on comparison between vector between car and mid (to_mid) and perpendicular vector(tx,ty) to the vector connecting the two cones ,like this :
-   ![Simple road-centerline diagram showing a car facing a track gate formed by one yellow cone and one blue cone. The midpoint between the cones is highlighted, and a second forward point is placed using the perpendicular direction to extend the centerline ahead of the vehicle. The wider environment is a minimal technical schematic on a plain background. The tone is explanatory and instructional, with no readable text in the image.](image-1.png)
+   ![Simple road-centerline diagram showing a car facing a track gate formed by one yellow cone and one blue cone. The midpoint between the cones is highlighted, and a second forward point is placed using the perpendicular direction to extend the centerline ahead of the vehicle. The wider environment is a minimal technical schematic on a plain background. The tone is explanatory and instructional, with no readable text in the image.](images/image-1.png)
    simple ,right? ...
    # Subcase A2: Multiple yellow cones, 1 blue cone (project missing blue boundary)
    we will take that lonely blue cone and gat the closest yellow cone to it ,then get vector from closest yellow and the 1 blue ,
    then calculate the offset between them ,then the mid pts will be (yellow + (yellow+offset)) / 2.0 for both x and y componants , and so do for the rest of yellow cones with no blue pair:
-   ![Track-boundary projection diagram showing a blue cone and a nearby yellow cone with an offset vector used to create a projected virtual cone on the missing boundary. A midpoint is computed between the real and projected cones to estimate the centerline. The wider environment is a clean technical illustration on a plain background. The tone is explanatory and analytical, with no readable text in the image.](image-2.png)
+   ![Track-boundary projection diagram showing a blue cone and a nearby yellow cone with an offset vector used to create a projected virtual cone on the missing boundary. A midpoint is computed between the real and projected cones to estimate the centerline. The wider environment is a clean technical illustration on a plain background. The tone is explanatory and analytical, with no readable text in the image.](images/image-2.png)
    # Subcase A3: Multiple blue cones, 1 yellow cone (project missing yellow boundary)
    same as above logic but switch the lone cone to get the closest other color
 
    # Subcase A4: Multiple cones on both sides (e.g. 2 & 2, 3 & 3, 3 & 2)
    we will solve this problem using resampling methode , the problem is :
-   ![alt text](image-4.png)
+   ![alt text](images/image-4.png)
    the resample method is simple , step1-take yellow boundary for example ,you get the length of that wall ,then get markers that follow that wall but using a prevoiusly defined spacing length ,and get the (x,y) of those markers , do the same in the other wall , now you have iamginary cones and can depend on and get the midpoints as we did before .
-   ![alt text](image-5.png)
+   ![alt text](images/image-5.png)
    so what is going on mathematically ??
 
    first we calculate the cummulative absolute distances between each two cones in same boundary color and cummulate that in a list called cummulative_dists[] :
-   ![alt text](image-3.png)
+   ![alt text](images/image-3.png)
    then we get the spacing between markers using wall_length and num_sample (4 minimum) ..python{ target_d = (j / (num_samples - 1)) * total_len  }
    then we look for the two cones (same color) that ,that marker belong between them so we get (x,y) of that marker relative to the first cone using : python{ 
       if cummulative_dists[k] <= target_d <= cummulative_dists[k + 1]: #looking for the two cones where that target_d is between them so we can assign (x,y) for that target_d
@@ -170,8 +170,8 @@ THE MATH BEHIND THIS :
       we will follow a predictive way here , we will get a vector which has angle in between car heading and from_car_to_cone vector as a starting point for us ,then we will get unit vector of that middle vector,then rotate it 90 degree clockwise if blue or counterclockwise if yellow :
       
 ---
-![alt text](image-6.png)
-![alt text](image-7.png)
+![alt text](images/image-6.png)
+![alt text](images/image-7.png)
 ```
 then we add the x and y of that lonely cone to the offset (ox,oy) we got , to get the point which is perpendcular from the middle vector and in the true direction (to left if blue , to right if yellow) ,add to that another point so we can draw a stright line and smoother can work (we will discuss the smoother later). 
 ```
@@ -180,7 +180,7 @@ then we add the x and y of that lonely cone to the offset (ox,oy) we got , to ge
       we will do the same as above but forget about the middle vector(we did that because we didn't got any info so we had to improvis) .
       we will get the vector between each two cones (same boundary of course) and oriante that 90 degrees (clockwise if blue , counterclockwise if yellow) and add the R=1.0m as my assumption says in that direction ,collect those in list called mid and return.
 ```
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
 from here my job was done , the rest is well known ways to smooth out the generated path given Path2D ,it will smoothen it using two functions 
 (
