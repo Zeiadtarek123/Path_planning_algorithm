@@ -69,7 +69,7 @@ Output: path [(x, y), ...], 28 points at 0.25m spacing, ~7m long
 ```
 
 ---
-```
+
 #### Phase 1 — Ordering Boundary Cones
 
 When multiple cones exist on the same side, they must be ordered progressively along the track (not just sorted by x or y, which would break on curves).
@@ -103,7 +103,7 @@ mathematical idea just for you ;  If cross > 0: The point is on the left of the 
 v = (last_cone - first_cone)  #to get the general vector pointing toward track direction that the car is supposed to go through
 
 d_other = (closest_opposite_cone - first_cone)  #another vector pointing from the closest cone to the car toward the closest cone to car but the other color , this explains it:
-```
+
 ![alt text](images/image.png)
 
 cross = v.x * d_other.y - v.y * d_other.x 
