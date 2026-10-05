@@ -10,3 +10,8 @@ __pycache__/
 *.swo
 *:Zone.Identifier
 matplotlibrc
+
+.venv/
+.mypy_cache/
+.qodo/
+matplotlibrc
